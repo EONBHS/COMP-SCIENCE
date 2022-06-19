@@ -1,0 +1,34 @@
+<html lang="en">
+
+    {% extends 'layout.html' %}
+    
+    {% block content %}
+
+<body class="w3-container">
+    <table>
+        <tr>
+            <form action="/signup" method="post">
+                <!--CREATE-->
+                <label for="Emailcreate"> Email: </label>
+                <input type="text" id="EmailCR" name="Emailcreate">
+
+                <label for="usrcreate"> Username: </label>
+                    <input type="text" id="usrCR" name="usrcreate">
+
+
+                <!--PASSWORD -->
+                <label for="pwdcreate"> Password: </label>
+                <input type="password" id="pwdCR" name="pwdcreate">
+
+                <label for="pwdcreatecheck"> Retype password: </label>
+                <input type="password" id="pwdcrck" name="pwdcreatecheck">
+                <!--SUBMIT-->
+                <input type="submit" value="submit">
+            </form>
+
+        </tr>
+    </table>
+</body>
+{% endblock %}
+
+</html>

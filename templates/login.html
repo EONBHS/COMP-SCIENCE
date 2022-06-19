@@ -3,20 +3,7 @@
     {% extends 'layout.html' %}
     
     {% block content %}
-
-<body class="w3-container">
     <table>
-        <tr>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Profile Picture</th>
-        </tr>
-        {% for item in results %}
-        <tr>
-            <td>{{ item[1] }}</td>
-            <td>{{ item[2] }}</td>
-            <td>{{ item[3] }}</td>
-        </tr>
         <tr>
             <form action="/check" method="post">
                 <!--USERNAME -->
@@ -29,10 +16,7 @@
                 <input type="submit" value="submit">
             </form>
         </tr>
-    
-        {% endfor %}
     </table>
-</body>
 {% endblock %}
 
 </html>

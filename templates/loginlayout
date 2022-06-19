@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <title>EONBHS</title>
+</head>
+<body class="w3-container">
+  <div class="w3-bar w3-card-4 w3-light-grey">
+    <a href="{{url_for('Home')}}" class="w3-bar-item w3-button">Home</a>
+    <a href="{{url_for('Forum')}}" class="w3-bar-item w3-button">Forum</a>
+    <a href="{{url_for('About')}}" class="w3-bar-item w3-button">About Us</a>
+</div>
+  {% block content %}
+  {% endblock %}
+</body>
+</html>

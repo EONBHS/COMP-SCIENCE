@@ -1,5 +1,6 @@
 from pickle import NONE
 from flask import Flask,g,render_template,request,redirect
+from sqlalchemy import sql
 from werkzeug.security import generate_password_hash,check_password_hash
 import sqlite3
 
@@ -24,7 +25,7 @@ def close_connection(exception):
 
 
 @app.route("/")
-def home():
+def login():
     cursor = get_db().cursor()
     sql = "SELECT * FROM UserID"
     cursor.execute(sql)
@@ -54,17 +55,25 @@ def signup():
         uscreate = request.form["usrcreate"]
         pscreate = request.form["pwdcreate"]
         pscreatecheck = request.form["pwdcreatecheck"]
-        print(emcreate)
-        print(uscreate)
-        print(pscreate)
-        print(pscreatecheck)
+        cursor = get_db().cursor()
+        if pscreate == pscreatecheck:
+            sql = "INSERT INTO Email,Username VALUES ?,?"
+            cursor.execute(sql,(emcreate,uscreate))
+        else:
+            return redirect('/signup')
+        if pscreate == pscreatecheck:
+            hashpass = generate_password_hash(pscreate)
+            sql = "INSERT INTO Password VALUES ?"
+            cursor.execute(sql,hashpass)
+        else:
+            return redirect('/signup')
     else:    
         return render_template("signup.html")
 
 
 
 @app.route('/admin')
-def login():
+def admin():
     return 'admin'
 
 
@@ -72,4 +81,4 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-print(generate_password_hash("Admin"))
+

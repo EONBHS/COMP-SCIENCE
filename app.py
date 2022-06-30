@@ -55,18 +55,28 @@ def signup():
         uscreate = request.form["usrcreate"]
         pscreate = request.form["pwdcreate"]
         pscreatecheck = request.form["pwdcreatecheck"]
-        cursor = get_db().cursor()
-        if pscreate == pscreatecheck:
-            sql = "INSERT INTO Email,Username VALUES ?,?"
-            cursor.execute(sql,(emcreate,uscreate))
+        db = get_db()
+        cursor = db.cursor()
+        if len(emcreate) > 1:
+            if len(uscreate) > 1:
+                if len(pscreate) > 1:
+                    if len(pscreatecheck) > 1:
+                        if pscreate == pscreatecheck:
+                            hash = generate_password_hash(pscreate)
+                            sql = "INSERT INTO UserID (Email,Username,Password) VALUES (?,?,?)"
+                            cursor.execute(sql,(emcreate,uscreate,hash))
+                            db.commit()
+                            return redirect ('/')
+                        else:
+                            return redirect('/signup')
+                    else:
+                        return redirect('/signup')
+                else:
+                    return redirect('/signup')
+            else:
+                return redirect('/signup')
         else:
-            return redirect('/signup')
-        if pscreate == pscreatecheck:
-            hashpass = generate_password_hash(pscreate)
-            sql = "INSERT INTO Password VALUES ?"
-            cursor.execute(sql,hashpass)
-        else:
-            return redirect('/signup')
+                return redirect('/signup')
     else:    
         return render_template("signup.html")
 
@@ -74,7 +84,43 @@ def signup():
 
 @app.route('/admin')
 def admin():
-    return 'admin'
+    cursor = get_db().cursor()
+    sql = "SELECT * FROM UserID"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    return render_template("admin.html", results=results)
+
+@app.route('/home')
+def home():
+    cursor = get_db().cursor()
+    sql = "SELECT * FROM UserID"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    return render_template("home.html", results=results)
+
+@app.route('/forum')
+def forum():
+    cursor = get_db().cursor()
+    sql = "SELECT * FROM UserID"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    return render_template("forum.html", results=results)
+
+@app.route('/about')
+def about():
+    cursor = get_db().cursor()
+    sql = "SELECT * FROM UserID"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    return render_template("about.html", results=results)
+
+@app.route('/profile')
+def profile():
+    cursor = get_db().cursor()
+    sql = "SELECT * FROM UserID"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    return render_template("profile.html", results=results)
 
 
 if __name__ == "__main__":

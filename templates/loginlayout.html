@@ -4,17 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="static\loginlayout.css">
+  
+
   <title>EONBHS</title>
 </head>
 <body class="w3-container">
   <div class="w3-bar w3-card-4 w3-light-grey">
-    <a href="{{url_for('home')}}" class="w3-bar-item w3-button">Home</a>
-    <a href="{{url_for('forum')}}" class="w3-bar-item w3-button">Forum</a>
-    <a href="{{url_for('about')}}" class="w3-bar-item w3-button">About</a>
-    <a href="{{url_for('profile')}}" id="Myprofile" class="w3-bar-item w3-button">Profile</a>
+    <img src="{{url_for('static', filename='media/logo.png')}}" width="90" height="45" >
+    <div>
+      <a href="{{url_for('home')}}" class="w3-bar-item w3-button">Home</a>
+      <a href="{{url_for('forum')}}" class="w3-bar-item w3-button">Forum</a>
+      <a href="{{url_for('about')}}" class="w3-bar-item w3-button">About</a>
+      <a href="{{url_for('donate')}}" class="w3-bar-item w3-button">Donate</a>
+      <a href="{{url_for('profile')}}" id="Myprofile" class="w3-bar-item w3-button">Profile</a>
+    </div>
+    {%for Username in user%}
+    <h6>Logged in as: {{Username}} </h6>
+    {% endfor %}
 </div>
   {% block content %}
   {% endblock %}
+  {% extends 'footertemplate.html' %}
 </body>
 </html>

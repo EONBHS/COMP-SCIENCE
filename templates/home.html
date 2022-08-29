@@ -3,9 +3,20 @@
     
     {% block content %}
 	<head>
-		<title></title>
+		<title>Home</title>
+		<h1>EonVR Kickstart</h1>
 	</head>
 	<body>
+		<p>Search for a forum:</p>
+		<input type="text" name="search_bar">
+		<input type="submit" value="Search">
+		
+
+		<div>
+			<video autoplay muted loop controls id="myVideo">
+				<source src={{url_for('static', filename='media/Movie.mp4')}} type="video/mp4">
+			</video>
+		</div>
 		
 	</body>
     {% endblock %}

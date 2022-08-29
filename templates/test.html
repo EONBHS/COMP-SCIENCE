@@ -1,0 +1,45 @@
+<html>
+    {% extends 'loginlayout.html' %}
+    
+    {% block content %}
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<ol>
+            <li class="row">
+                <a href="/item">
+                    <h4 class="title">
+                        Thread 1
+                    </h4>
+                    <div class="bottom">
+                        <p class="timestamp">
+                            02/08/2022
+                        </p>
+                        <p class="comment_count">
+                            4 Comments
+                        </p>
+
+                    </div>
+                </a>
+            </li>
+            <li class="row">
+                <a href="/item">
+                    <h4 class="title">
+                        Thread 2
+                    </h4>
+                    <div class="bottom">
+                        <p class="timestamp">
+                            02/09/2022
+                        </p>
+                        <p class="comment_count">
+                            10 Comments
+                        </p>
+
+                    </div>
+                </a>
+            </li>
+
+	</body>
+    {% endblock %}
+</html>

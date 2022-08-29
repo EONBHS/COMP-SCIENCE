@@ -3,11 +3,60 @@
     
     {% block content %}
 	<head>
-		<title></title>
+	
+		<title>Forum</title>
 	</head>
 	<body>
+		<form action="/add" method="post">
+			<h2>Create a forum</h2>
+			<input type="text" name="forum_name">
+			<input type="text" name="forum_description">
+			<input type="submit" value="add">
+			
+		</form>
+		{%for post in results%}
+		{%for User in username%}
+		<div class="top-bar">
+			<p>{{User[0]}}</p>
+			
+			<h1>
+				{{post[1]}}
+	
+			</h1>
+			<h4>{{post[2]}}</h4>
+		</div>
+		{% endfor %}
+		{% endfor %}
+		<div class="header">
+			<div class="bottom">
+				<p class="timestamp">
+					02/09/2022
+				</p>
+				<p class="comment_count">
+					10 Comments
+				</p>
+				<br>
+			</div>
+		</div>
 		
-	</body>
+		
+		<textarea></textarea>
+		<form action="/addcomment" method="post">
+		<button type="submit" value="addcomment">Add Comment</button>
+		</form>
+		<div class="Comments">
+		   <div class="comment">
+			   <div class="top-comment">
+			   <p class="user">
+				 Commenter's name 
+			   </p>
+				</div>
+				<div class="comment-content">
+					comment text here
+				</div>
+		   </div>
+		</div>
+		</body>
     {% endblock %}
 </html>
 

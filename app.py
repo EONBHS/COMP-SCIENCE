@@ -1,12 +1,13 @@
+from ast import If
 from pickle import NONE
-from flask import Flask,g,render_template,request,redirect
-from sqlalchemy import sql
+from flask import Flask,g,render_template,request,redirect,flash,session
+from sqlalchemy import sql, true
 from werkzeug.security import generate_password_hash,check_password_hash
 import sqlite3
 
 app = Flask(__name__)
 
-
+app.config['SECRET_KEY'] = "SGNKJGKJSAHFBBHNJSNVKJBSOIBHOGIBGSUC"
 
 DATABASE = 'database.db'
 
@@ -23,50 +24,71 @@ def close_connection(exception):
         db.close()
 
 
-
 @app.route("/")
 def login():
     cursor = get_db().cursor()
-    sql = "SELECT * FROM UserID"
+    sql = "SELECT * FROM User"
     cursor.execute(sql)
     results = cursor.fetchall()
     return render_template("login.html", results=results)
 
 @app.route('/check', methods=['GET','POST'])
 def check():
+    ## This route checks the text inputed from the HTML login site and sees if the matching 
+    # Username + Password Combination has been created and is Correct
     if request.method == "POST":
         User = request.form["usr"]
         Pass = request.form["pwd"]
         cursor = get_db().cursor()
-        sql = "SELECT Username,Password FROM UserID WHERE Username=?;"
+        sql = "SELECT ID,Username,Password FROM User WHERE Username=?;"
         cursor.execute(sql,(User,))
         result = cursor.fetchone()
         if result != None:
-            pass_check = check_password_hash(result[1],Pass)
+            pass_check = check_password_hash(result[2],Pass)
+            #Checks if the User is signing in as the PreCreated ADMIN account
             if pass_check == True and User == "ADMIN":
-                return redirect('/admin')
+                return redirect('/admin')   
+            elif pass_check == True and User == result[1]:
+                #Checks the password against the username input in the database and saves the session
+                # ID for later use
+                session["user_id"]= result[0]                
+                return redirect('/home')
+            else:
+                return redirect('/')
         else:
             return redirect('/')
 
 @app.route('/signup', methods=["POST","GET"])
 def signup():
+    #This route is responsable for Creating and inputing the Users information into the database.
+    #It checks to see if the username inputted doesnt match any other username in the database aswell as checks to see if the password and retype password is matching.
     if request.method == "POST":
+        nmecreate = request.form["Namecreate"]
         emcreate = request.form["Emailcreate"]
         uscreate = request.form["usrcreate"]
         pscreate = request.form["pwdcreate"]
         pscreatecheck = request.form["pwdcreatecheck"]
         db = get_db()
         cursor = db.cursor()
-        if len(emcreate) > 1:
-            if len(uscreate) > 1:
-                if len(pscreate) > 1:
-                    if len(pscreatecheck) > 1:
-                        if pscreate == pscreatecheck:
-                            hash = generate_password_hash(pscreate)
-                            sql = "INSERT INTO UserID (Email,Username,Password) VALUES (?,?,?)"
-                            cursor.execute(sql,(emcreate,uscreate,hash))
-                            db.commit()
-                            return redirect ('/')
+        if len(nmecreate)  > 1:
+            if len(emcreate)  > 1:
+                if len(uscreate) > 1:
+                    sql = "Select Username FROM User WHERE Username=?"
+                    cursor.execute(sql,(uscreate,))
+                    result = cursor.fetchone()
+                    if result == None:
+                        if len(pscreate) > 1:
+                            if len(pscreatecheck) > 1:
+                                if pscreate == pscreatecheck:
+                                    hash = generate_password_hash(pscreate)
+                                    sql = "INSERT INTO User (Name,Email,Username,Password) VALUES (?,?,?,?)"
+                                    cursor.execute(sql,(nmecreate,emcreate,uscreate,hash))
+                                    db.commit()
+                                    return redirect ('/')
+                                else:
+                                    return redirect('/signup')
+                            else:
+                                return redirect('/signup')
                         else:
                             return redirect('/signup')
                     else:
@@ -76,7 +98,7 @@ def signup():
             else:
                 return redirect('/signup')
         else:
-                return redirect('/signup')
+            return redirect('/signup')
     else:    
         return render_template("signup.html")
 
@@ -85,7 +107,7 @@ def signup():
 @app.route('/admin')
 def admin():
     cursor = get_db().cursor()
-    sql = "SELECT * FROM UserID"
+    sql = "SELECT * FROM User"
     cursor.execute(sql)
     results = cursor.fetchall()
     return render_template("admin.html", results=results)
@@ -93,35 +115,111 @@ def admin():
 @app.route('/home')
 def home():
     cursor = get_db().cursor()
-    sql = "SELECT * FROM UserID"
+    sql = "SELECT * FROM User"
     cursor.execute(sql)
     results = cursor.fetchall()
-    return render_template("home.html", results=results)
+
+    cursor = get_db().cursor()
+    sql = "SELECT Username FROM User WHERE ID=?"
+    cursor.execute(sql,(session["user_id"],))
+    user = cursor.fetchone()
+
+    return render_template("home.html", results=results,user=user)
 
 @app.route('/forum')
 def forum():
     cursor = get_db().cursor()
-    sql = "SELECT * FROM UserID"
+    sql = "SELECT * FROM Forum"
     cursor.execute(sql)
     results = cursor.fetchall()
-    return render_template("forum.html", results=results)
+    print(results)
+
+
+    cursor = get_db().cursor()
+    sql = "SELECT Username FROM User LEFT JOIN Forum ON User.ID = Forum.user_id;"
+    cursor.execute(sql)
+    username = cursor.fetchall()
+
+    cursor = get_db().cursor()
+    sql = "SELECT Username FROM User WHERE ID=?"
+    cursor.execute(sql,(session["user_id"],))
+    user = cursor.fetchone()
+
+    return render_template("forum.html", results=results, user=user, username=username)
+
+
+@app.route('/donate')
+def donate():
+    cursor = get_db().cursor()
+    sql = "SELECT * FROM User"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+
+    cursor = get_db().cursor()
+    sql = "SELECT Username FROM User WHERE ID=?"
+    cursor.execute(sql,(session["user_id"],))
+    user = cursor.fetchone()
+
+    return render_template("donate.html", results=results, user=user)
 
 @app.route('/about')
 def about():
     cursor = get_db().cursor()
-    sql = "SELECT * FROM UserID"
+    sql = "SELECT * FROM User"
     cursor.execute(sql)
     results = cursor.fetchall()
-    return render_template("about.html", results=results)
+
+    cursor = get_db().cursor()
+    sql = "SELECT Username FROM User WHERE ID=?"
+    cursor.execute(sql,(session["user_id"],))
+    user = cursor.fetchone()
+
+    return render_template("about.html", results=results, user=user)
 
 @app.route('/profile')
 def profile():
     cursor = get_db().cursor()
-    sql = "SELECT * FROM UserID"
-    cursor.execute(sql)
+    sql = "SELECT Profilepic,Username,Name,Email FROM User WHERE ID=?"
+    cursor.execute(sql,(session["user_id"],))
     results = cursor.fetchall()
-    return render_template("profile.html", results=results)
 
+    cursor = get_db().cursor()
+    sql = "SELECT Username FROM User WHERE ID=?"
+    cursor.execute(sql,(session["user_id"],))
+    user = cursor.fetchone()
+
+    return render_template("profile.html", results=results, user=user)
+
+@app.route('/add', methods=['GET','POST'])
+def add():
+    if request.method == "POST":
+        db = get_db()
+        cursor = db.cursor()
+        new_name = request.form["forum_name"]
+        print(new_name)
+        new_description = request.form["forum_description"]
+        print(new_description)
+        sql = "INSERT INTO Forum (forumname,forumdescription,user_id) VALUES (?,?,?)"
+        cursor.execute(sql,(new_name,new_description,session["user_id"],))
+        db.commit()
+        return redirect('/forum')
+
+
+@app.route('/addcomment', methods=['GET','POST'])
+def addcomment():
+    if request.method == "POST":
+        db = get_db()
+        cursor = db.cursor()
+        sql = "INSERT INTO reply (forumname,forumdescription) VALUES (?,?)"
+        result = cursor.execute(sql,())
+        print(result.rowcount)
+        print(result)
+        db.commit()
+        return redirect('/forum')
+
+@app.route('/logout', methods=['GET','POST'])
+def logout():
+    return redirect('/')
 
 if __name__ == "__main__":
     app.run(debug=True)

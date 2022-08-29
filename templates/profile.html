@@ -6,7 +6,18 @@
 		<title></title>
 	</head>
 	<body>
-		
+		{%for item in results%}
+		<h2>Profile Picture: {{item[0]}}</h2>
+		<h2>Username: {{item[1]}}</h2>
+		<h2>Name: {{item[2]}}</h2>
+		<h2>Email: {{item[3]}}</h2>
+
+		{% endfor %}
+
+		<form action="/logout" method="post">
+			<input type="submit" value="logout">
+
+		</form>
 	</body>
     {% endblock %}
 </html>

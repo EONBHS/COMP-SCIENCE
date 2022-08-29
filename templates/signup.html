@@ -9,21 +9,33 @@
         <tr>
             <form action="/signup" method="post">
                 <!--CREATE-->
-                <label for="Emailcreate"> Email: </label>
-                <input type="text" id="EmailCR" name="Emailcreate">
-
-                <label for="usrcreate"> Username: </label>
+                <div>
+                    <label for="namecreate"> Name:</label>
+                    <input type="text" id="nmeCR" name="Namecreate">
+                </div>
+                <div>
+                    <label for="Emailcreate"> Email: </label>
+                    <input type="text" id="EmailCR" name="Emailcreate">
+                </div>
+                <div>
+                    <label for="usrcreate"> Username: </label>
                     <input type="text" id="usrCR" name="usrcreate">
-
-
+                </div>
+                
                 <!--PASSWORD -->
+                <div>
                 <label for="pwdcreate"> Password: </label>
                 <input type="password" id="pwdCR" name="pwdcreate">
-
+                </div>
+                <div>
                 <label for="pwdcreatecheck"> Retype password: </label>
                 <input type="password" id="pwdcrck" name="pwdcreatecheck">
+                </div>
                 <!--SUBMIT-->
+                <div>
                 <input type="submit" value="submit">
+                </div>
+                <p>Already have an account?<a href="/"><u>Sign in</u></a></p>
             </form>
 
         </tr>

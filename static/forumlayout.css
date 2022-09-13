@@ -1,3 +1,58 @@
-.column.middle {
+.column {
     width: 50%;
+    align-content: center;
+    position: fixed;
   }
+
+  .integration-item-icon {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 24px;
+  }
+
+  .integration-item-heading-32px {
+    margin-bottom: 16px;
+    font-size: 32px;
+    line-height: 32px;
+    font-weight: 700;
+  }
+
+  .integration-item-para-18px {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .integration-item-wrapper {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+
+  body {
+    background-color: #eb9b34;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+  }
+
+  #myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 10%;
+    min-height: 10%;
+  }
+  
+  #Myprofile {
+    align-content: right;
+    position: fixed;
+    right:100;
+  }
+
+  .container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.container img{
+    width: 100%;
+}

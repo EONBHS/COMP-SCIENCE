@@ -2,6 +2,8 @@
     {% extends 'loginlayout.html' %}
     
     {% block content %}
+
+	<link rel="stylesheet" href="forumlayout.css">
 	<head>
 	
 		<title>Forum</title>
@@ -14,48 +16,47 @@
 			<input type="submit" value="add">
 			
 		</form>
+		<div class="column">
 		{%for post in results%}
-		{%for User in username%}
+		
 		<div class="top-bar">
-			<p>{{User[0]}}</p>
 			
+			<h4>Posted by: {{post[6]}} on {{post[4]}} </h4>
 			<h1>
 				{{post[1]}}
 	
 			</h1>
 			<h4>{{post[2]}}</h4>
+
+			{%for comment in reply%}
+			{% if comment[1] == post[0]%}
+			
+			<h6>{{comment[2]}}</h6>
+			{% endif %}
+			{% endfor %}
+			
+			<form action="/addcomment" method="post">
+				<input type="text" name="comment">
+				<input type="hidden" value="{{post[0]}}" name="PostID">
+				<button type="submit" value="addcomment">Add Comment</button>
+			</form>
+			
 		</div>
+		
 		{% endfor %}
-		{% endfor %}
-		<div class="header">
-			<div class="bottom">
-				<p class="timestamp">
-					02/09/2022
+	
+			<div class="Comments">
+			<div class="comment">
+				<div class="top-comment">
+				<p class="user">
+					Commenter's name 
 				</p>
-				<p class="comment_count">
-					10 Comments
-				</p>
-				<br>
+					</div>
+					<div class="comment-content">
+						comment text here
+					</div>
 			</div>
-		</div>
-		
-		
-		<textarea></textarea>
-		<form action="/addcomment" method="post">
-		<button type="submit" value="addcomment">Add Comment</button>
-		</form>
-		<div class="Comments">
-		   <div class="comment">
-			   <div class="top-comment">
-			   <p class="user">
-				 Commenter's name 
-			   </p>
-				</div>
-				<div class="comment-content">
-					comment text here
-				</div>
-		   </div>
-		</div>
+			</div>
 		</body>
     {% endblock %}
 </html>

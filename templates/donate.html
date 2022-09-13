@@ -1,0 +1,29 @@
+<html>
+
+    {% extends 'loginlayout.html' %}
+    
+    {% block content %}
+
+	<link rel="stylesheet" href="forumlayout.css">
+    <head>
+
+    </head>
+    <body>
+        <div class="integration-template-section wf-section"> 
+            <div class="wrapper-1160px integration-template-flex">
+                <div class="w-dyn-list">
+                    <div role="list" class="w-dyn-items">
+                        <div role="listitem" class="w-dyn-item">
+                            <a href="https://www.kickstarter.com/" class="integration-item-wrapper w-inline-block" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                <img src="{{url_for('static', filename='media/kickstarter.png')}}" loading="lazy" alt="" class="integration-item-icon">
+                                <div class="integration-item-heading-32px">Kickstarter</div>
+                                <div class="integration-item-para-18px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sodales turpis libero.</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    {%endblock%}
+</html>

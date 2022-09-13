@@ -3,6 +3,7 @@ from pickle import NONE
 from flask import Flask,g,render_template,request,redirect,flash,session
 from sqlalchemy import sql, true
 from werkzeug.security import generate_password_hash,check_password_hash
+from werkzeug.utils import secure_filename
 import sqlite3
 
 app = Flask(__name__)
@@ -10,6 +11,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "SGNKJGKJSAHFBBHNJSNVKJBSOIBHOGIBGSUC"
 
 DATABASE = 'database.db'
+
+UPLOAD_FOLDER = 'static/'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -129,23 +132,21 @@ def home():
 @app.route('/forum')
 def forum():
     cursor = get_db().cursor()
-    sql = "SELECT * FROM Forum"
+    sql = "SELECT * FROM Forum JOIN User ON User.ID = Forum.user_id"
     cursor.execute(sql)
     results = cursor.fetchall()
-    print(results)
-
 
     cursor = get_db().cursor()
-    sql = "SELECT Username FROM User LEFT JOIN Forum ON User.ID = Forum.user_id;"
+    sql = "SELECT * FROM reply JOIN Forum ON Forum.ID = reply.post_id"
     cursor.execute(sql)
-    username = cursor.fetchall()
+    reply = cursor.fetchall()
 
     cursor = get_db().cursor()
     sql = "SELECT Username FROM User WHERE ID=?"
     cursor.execute(sql,(session["user_id"],))
     user = cursor.fetchone()
 
-    return render_template("forum.html", results=results, user=user, username=username)
+    return render_template("forum.html", results=results, reply=reply, user=user)
 
 
 @app.route('/donate')
@@ -208,14 +209,31 @@ def add():
 @app.route('/addcomment', methods=['GET','POST'])
 def addcomment():
     if request.method == "POST":
+        comment = request.form["comment"]
+        ID = request.form["PostID"]
         db = get_db()
         cursor = db.cursor()
-        sql = "INSERT INTO reply (forumname,forumdescription) VALUES (?,?)"
-        result = cursor.execute(sql,())
-        print(result.rowcount)
-        print(result)
+        sql = "INSERT INTO reply (Comment,post_id) VALUES (?,?)"
+        result = cursor.execute(sql,(comment,ID))
         db.commit()
         return redirect('/forum')
+
+@app.route('/add_item', methods=['GET','POST'])
+def add_item():
+    if request.method == "POST":
+        db = get_db()
+        cursor = db.cursor()
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        file.save(UPLOAD_FOLDER+filename)
+        sql = "UPDATE User SET Profilepic = ? WHERE ID=?;"
+        picture = cursor.execute(sql,(filename,session["user_id"]))
+        db.commit()
+        return redirect('/profile')
+
+
+
+
 
 @app.route('/logout', methods=['GET','POST'])
 def logout():

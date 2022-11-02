@@ -10,53 +10,79 @@
 	</head>
 	<body>
 		<form action="/add" method="post">
+			<div class="forumtable">
 			<h2>Create a forum</h2>
-			<input type="text" name="forum_name">
-			<input type="text" name="forum_description">
-			<input type="submit" value="add">
+			<div class="txt_field">
+			<input type="text" name="forum_name" maxlength="50" required>
+			<span></span>
+            <label>Forum Name</label>
+			</div>
+			<div class="txt_field">
+			<input type="text" name="forum_description" maxlength="300" required>
+			<span></span>
+            <label>Forum Contents</label>
+			</div>
+			<button type="submit" value="add">
+			<span></span>
+			<label class="forumlabel">Submit Forum</label>
+			</div>
+			
 			
 		</form>
-		<div class="column">
+		<div class="forumcolumn">
 		{%for post in results%}
 		
 		<div class="top-bar">
 			
+			<!-- Posted By User on Date Posted -->
 			<h4>Posted by: {{post[6]}} on {{post[4]}} </h4>
 			<h1>
+				<!-- Forum Title -->
 				{{post[1]}}
 	
 			</h1>
-			<h4>{{post[2]}}</h4>
+			<!-- Forum Contents -->
+			<h4 class="post_description">{{post[2]}}</h4>
 
+
+			<div class="commentsection">
 			{%for comment in reply%}
 			{% if comment[1] == post[0]%}
+
+		
+			<!-- Comment User -->
+			
+			<h3 class="CommentUser">User {{post[10]}}</h3>
+			<!-- Comment Content -->
+	
 			
 			<h6>{{comment[2]}}</h6>
 			{% endif %}
 			{% endfor %}
 			
+		
 			<form action="/addcomment" method="post">
-				<input type="text" name="comment">
+				<input type="text" name="comment" required>
 				<input type="hidden" value="{{post[0]}}" name="PostID">
 				<button type="submit" value="addcomment">Add Comment</button>
 			</form>
-			
+		</div>
 		</div>
 		
 		{% endfor %}
 	
-			<div class="Comments">
-			<div class="comment">
-				<div class="top-comment">
-				<p class="user">
-					Commenter's name 
-				</p>
-					</div>
-					<div class="comment-content">
-						comment text here
-					</div>
-			</div>
-			</div>
+
+
+			<script>
+				document.addEventListener("DOMContentLoaded", function (event) {
+				  var scrollpos = localStorage.getItem("scrollpos");
+				  if (scrollpos) window.scrollTo(0, scrollpos);
+				});
+			
+				window.onscroll = function (e) {
+				  localStorage.setItem("scrollpos", window.scrollY);
+				};
+			  </script>
 		</body>
     {% endblock %}
 </html>

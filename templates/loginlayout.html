@@ -15,17 +15,27 @@
   
 <body class="w3-container">
   <div class="w3-bar w3-card-4 w3-light-grey">
+    <div class="logo">
     <img src="{{url_for('static', filename='media/logo.png')}}" width="90" height="45" >
+  </div>
     <div>   
       <a href="{{url_for('home')}}" class="w3-bar-item w3-button">Home</a>
       <a href="{{url_for('forum')}}" class="w3-bar-item w3-button">Forum</a>
       <a href="{{url_for('about')}}" class="w3-bar-item w3-button">About</a>
       <a href="{{url_for('donate')}}" class="w3-bar-item w3-button">Donate</a>
+      {%for item in profile%}
+      <img src="{{url_for('static',filename=item[0])}}" alt="{{item[0]}}" width="65px" height="65px" class="picture">
+      {% endfor %}
+      
       <a href="{{url_for('profile')}}" id="Myprofile" class="w3-bar-item w3-button">Profile</a>
+    </div>
     
       {%for Username in user%}
-      <p>Logged in as: {{Username}} </p>
+      <h3 class="loginas">Logged in as: {{Username}} <h3>
       {% endfor %}
+  
+
+      
   </div>
 </div>
   {% block content %}

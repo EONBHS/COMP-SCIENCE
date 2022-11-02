@@ -7,24 +7,31 @@
 	</head>
 	<body>
 		{%for item in results%}
+		<div class="profiletable">
 		<form action="/add_item" method="post" enctype='multipart/form-data'>
+		
 			<label for="item_name">Profile Image</label>
 			<!-- file input type- the 'accept' helps to remind user to upload images but should still be checked on server -->
-			<input type="file" name="file" accept="image/*">
+			<input type="file" name="file" accept="image/*" required>
 			<input type="submit" value="Add">
 		</form>
-		<h2>Profile Picture: <img src="{{url_for('static',filename=item[0])}}" alt="{{item[0]}}"> </h2>
-		<h2>Username: {{item[1]}}</h2>
-		<h2>Name: {{item[2]}}</h2>
-		<h2>Email: {{item[3]}}</h2>
+		
+			
+			<div class="profile_image">
+				<h2>Profile Picture: <img src="{{url_for('static',filename=item[0])}}" alt="{{item[0]}}" width="100px" height="100px"></h2>
+			</div>
+		
+			<h2>Username: {{item[1]}}</h2>
+			<h2>Name: {{item[2]}}</h2>
+			<h2>Email: {{item[3]}}</h2>
 
-		{% endfor %}
+			{% endfor %}
 
-		<form action="/logout" method="post">
+			<form action="/logout" method="post">
 			<input type="submit" value="logout">
 
-		</form>
-
+			</form>
+		</div>
 		
 	</body>
     {% endblock %}

@@ -1,0 +1,32 @@
+<html lang="en">
+
+    {% extends 'layout.html' %}
+    
+    {% block content %}
+    <body>
+        <div class="center">
+            <h1>Login</h1>
+            <form action="/check" method="post">
+                <div class="txt_field">
+                    <input type="text" name="usr" required>
+                    <span></span>
+                    <label>Username</label>
+                </div>
+                <div class="txt_field">
+                    <input type="password" name="pwd" required>
+                    <span></span>
+                    <label>Password</label>
+                </div>
+                <h5 class="incorrect">Incorrect Username or Password</h5>
+                <div class="pass">Forgot Password?</div>
+                <input type="submit" value="Login">
+                <div class="signup_link">
+                    Not a Member?  <a href="/signup">Signup</a>
+                </div>
+            </form>
+        </div>
+    </body>
+
+{% endblock %}
+
+</html>

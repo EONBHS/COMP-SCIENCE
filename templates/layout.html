@@ -9,6 +9,9 @@
 </head>
 <body class="w3-container">
   <div class="w3-bar w3-card-4 w3-light-grey">
+   <div class="logo">
+    <img src="{{url_for('static', filename='media/logo.png')}}" width="90" height="45" >
+   </div>
     <a href="{{url_for('login')}}" class="w3-bar-item w3-button">Login</a>
     <a href="{{url_for('signup')}}" class="w3-bar-item w3-button">Sign up</a>
 </div>

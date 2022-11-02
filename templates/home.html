@@ -3,15 +3,26 @@
     
     {% block content %}
 	<head>
-		<title>Home</title>
-		<h1>EonVR Kickstart</h1>
+		<title>EonVR</title>
+		<div class="banner">
+			<h1>EonVR Kickstart</h1>
+			<p>Welcome to EonVR, we are proud to announce the Kickstart program for the new line of Dyna headsets set to release later this year! By supporting the project you get access to the patreons tab where you can see the newest updates to the project and be in the draw to win 1/10 Dyna headsets!<p>
+		</div>
 	</head>
 	<body>
-		<p>Search for a forum:</p>
-		<input type="text" name="search_bar">
-		<input type="submit" value="Search">
-		
+		<!-- This Function Would allow the user to find a forum searching by what they inputed, For example
+		"SELECT forumname from Forum WHERE type="u" "  However it has not been implemented as of now-->
+		<!-- <div class="center">
+			<div class="txt_field">
+			<p>Search for a forum:</p>
+			<input class="search" type="text" name="search_bar">
+			</div>
+			<input type="submit" value="Search">
+			
+		</div> -->
 
+
+		<!-- This is a looping vidio displayed on the bottom Right of the home screen that shows a design of a EONVR headset -->
 		<div>
 			<video autoplay muted loop controls id="myVideo">
 				<source src={{url_for('static', filename='media/Movie.mp4')}} type="video/mp4">

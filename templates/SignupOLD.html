@@ -1,0 +1,66 @@
+<html lang="en">
+
+    {% extends 'layout.html' %}
+    
+    {% block content %}
+
+<body class="w3-container">
+    <table>
+        <tr>
+
+            <form action="/signup" method="post">
+                <div class="center">
+                <!--CREATE-->
+                <h1>Sign up</h1>
+                    <div class="txt_field">
+                        <input type="text" id="nmeCR" name="Namecreate">
+                        <span></span>
+                        <label>Name</label>
+                    </div>
+                    
+                
+                    <div class="txt_field">
+                        <input type="text" id="EmailCR" name="Emailcreate" required>
+                        <span></span>
+                        <label>Email</label>
+                    </div>
+                    
+                
+                
+                    <div class="txt_field">
+                        <input type="text" id="usrCR" name="usrcreate">
+                        <span></span>
+                        <label>Username</label>
+                    </div>
+                    
+                
+                
+                <!--PASSWORD -->
+
+                <div class="txt_field">
+                    <input type="password" id="pwdCR" name="pwdcreate" required>
+                    <span></span>
+                    <label>Password</label>
+                </div>
+
+                <div class="txt_field">
+                    <input type="password" id="pwdcrck" name="pwdcreatecheck" required>
+                    <span></span>
+                    <label>Retype Password</label>
+                </div>  
+                <!--SUBMIT-->
+                <div>
+                <input type="submit" value="submit">
+                </div>
+                <div class="signup_link">
+                    Already a Member?  <a href="/">Signin</a>
+                </div>
+                </div>
+            </form>
+
+        </tr>
+    </table>
+</body>
+{% endblock %}
+
+</html>
